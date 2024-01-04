@@ -15,6 +15,9 @@
       <el-menu-item index="/home2"  >
       热词统计
       </el-menu-item>
+      <el-menu-item index="/home3"  >
+      热词效果
+      </el-menu-item>
     </el-menu>
   </el-header>
   <el-main>
@@ -36,7 +39,7 @@ export default {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
       },
-          handleOpen(key, keyPath) {
+      handleOpen(key, keyPath) {
         console.log(key, keyPath);
       },
       handleClose(key, keyPath) {
@@ -81,7 +84,7 @@ html,body{
   border-bottom: none;
 }
 .el-aside{
-    z-index: 999;
+  z-index: 999;
   padding-top: 60px;
 }
 .el-aside{
@@ -89,7 +92,7 @@ html,body{
 }
 .el-main {
     margin-left: 10px;
-    margin-top: 70px;
+    margin-top: 20px;
 }
 .el-aside .el-menu{
   border-right: none;

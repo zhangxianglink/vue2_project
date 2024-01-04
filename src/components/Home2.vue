@@ -1,136 +1,126 @@
 <template>
+    <div id="Home2">
 <el-form :inline="true" :model="formInline" class="demo-form-inline">
-    <el-form-item label="查询key">
-      <el-input v-model="formInline.key" placeholder="查询key2"></el-input>
+    <el-form-item label="查询热词">
+      <el-input v-model="formInline.key" placeholder="查询热词"></el-input>
     </el-form-item>
     <el-form-item label="查询索引">
-      <el-select v-model="formInline.index" placeholder="查询索引2">
+      <el-select v-model="formInline.index" placeholder="查询索引">
         <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-            </el-option>
+          v-for="item in options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        />
       </el-select>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="selectTableData">查询</el-button>
     </el-form-item>
 
-    <el-table
-      :data="tableData"
-      style="width: 100%">
+    <el-table :data="tableData" style="width: 100%"  height=750  border>
       <el-table-column
         prop="key"
-        label="key"
+        label="热词"
         width="180">
       </el-table-column>
       <el-table-column
         prop="value"
-        label="value"
+        label="使用计数"
+        sortable
         width="180">
       </el-table-column>
       <el-table-column
-      fixed="right"
-      label="操作"
-      width="100">
-      <template slot-scope="scope">
-        <el-button type="text" size="small" @click="edit(scope.$index,scope.row)">编辑</el-button>
-        <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
-      </template>
-    </el-table-column>
+        label="操作"
+        width="200">
+        <template slot-scope="scope">
+          <el-button @click="handleClick(scope.row)" type="danger" size="medium">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
-
-    <el-dialog id="edit" title="修改数据" :visible.sync="editOn">
-      <el-form :model="editFrom">
-        <el-form-item label="活动名称" :label-width="formLabelWidth">
-          <el-input v-model="editFrom.key" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域" :label-width="formLabelWidth">
-          <el-input v-model="editFrom.value" autocomplete="off"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editOn = false">取 消</el-button>
-        <el-button type="primary" @click="updateRow()">确 定</el-button>
-      </div>
-    </el-dialog>
+    <el-pagination
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      :current-page="tablePage.pageNum"
+      :page-size="tablePage.pageSize"
+      :page-sizes="pageSizes"
+      :total="tablePage.total"
+      @size-change="handleSizeChange"
+      @current-change="handlePageChange"
+    />
   </el-form>
-
+</div>
 </template>
 
 <script>
   import axios from 'axios'
     export default {
-      name: 'Home',
+      name: 'Home2',
       data() {
         return {
-          formLabelWidth:'',
-          editOn: false,
+          pageSizes: [10, 20, 30],
+          tablePage: {
+            pageNum: 1, // 第几页
+            pageSize: 10, // 每页多少条
+            total: 0 // 总记录数
+          },
           formInline: {
             key: '',
-            index: ''
+            index: 'word:count'
           },
-          editFrom:{
-            key: '',
-            value: ''
-          },
-          options: [],
+          options: [{value:"word:count",label:"word:count"}],
           tableData: []
         }
       },
       methods: {
-        updateRow() {
-          console.log("修改值成功",this.editFrom);
-          this.editOn = false;
-        },
-        edit(index ,row){
-          this.editOn = true;
-          this.editFrom.key = row.key;
-          this.editFrom.value = row.value;
-        },
         handleClick(row) {
-        console.log(row);
-      },
-        onSubmit() {
-          console.log(this.formInline);
-        },
-        selectOptions() {
-            axios.get("http://localhost:8082/word/hot/word/keys").then(
-                response => {
-						const arr = response.data.data;
-                        for(let i =0; i<arr.length; i++){
-                            this.options.push({"lable":i,"value":arr[i]})
-                        }
-                        console.log(this.options)
-					},
-					error => {
-						console.log('请求失败了',error.message)
-					}
-            )
+          let delKey = this.formInline.index + ":" +row.key
+          let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:8099/word/del?key=' + delKey,
+          };
+          axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            this.selectTableData();
+          })
+          .catch((error) => {
+            console.log('请求失败了',error.message)
+          });
+
         },
         selectTableData() {
-          axios.post("http://localhost:8082/word/hot/word/search",{
-            "match": this.formInline.key,
-            "key": this.formInline.index,
-            "pageSize": 10,
-            "pageNum": 1
-          }).then(
-                response => {
-                  const arr = response.data.data;
-                  for (let key in jsonMap) {
-                    this.tableData.push({})
+          this.tableData = []
+            axios.post("http://localhost:8099/common/word/page",{
+              "match": this.formInline.key,
+              "key": this.formInline.index,
+              "pageSize": this.tablePage.pageSize,
+              "pageNum": this.tablePage.pageNum
+            }).then(
+                  response => {
+                    const obj = response.data.result;
+                    this.tablePage.total = response.data.total;
+                    for (let key in obj) {
+                      this.tableData.push({"key":key,"value":obj[key]})
                   }
-					},
-					error => {
-						console.log('请求失败了',error.message)
-					}
-            )
-        }
+            },
+            error => {
+              console.log('请求失败了',error.message)
+            }
+              )
+          },
+          handlePageChange(currentPage) {
+            this.tablePage.pageNum = currentPage;
+            this.selectTableData();
+          },
+          handleSizeChange(pageSize) {
+            this.tablePage.pageSize = pageSize
+            this.selectTableData();
+          }
       },
       mounted() {
-        this.selectOptions();
       }
     }
 </script>

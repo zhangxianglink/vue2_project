@@ -1,4 +1,5 @@
 <template>
+  <div id="Home">
 <el-form :inline="true" :model="formInline" class="demo-form-inline">
     <el-form-item label="查询key">
       <el-input v-model="formInline.key" placeholder="查询key"></el-input>
@@ -20,9 +21,9 @@
       <el-button type="primary" @click="edit(-1)">新增</el-button>
     </el-form-item>
 
-    <el-table
+    <el-table border
       :data="tableData"
-      style="width: 100%">
+      style="width: 100%" height=750 >
       <el-table-column
         prop="key"
         label="key"
@@ -34,12 +35,11 @@
         width="180">
       </el-table-column>
       <el-table-column
-      fixed="right"
       label="操作"
-      width="100">
+      width="200">
       <template slot-scope="scope">
-        <el-button type="text" size="small" @click="edit(scope.$index,scope.row)">编辑</el-button>
-        <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+        <el-button type="primary" size="medium" @click="edit(scope.$index,scope.row)">编辑</el-button>
+        <el-button @click="handleClick(scope.row)" type="danger" size="medium">删除</el-button>
       </template>
     </el-table-column>
     </el-table>
@@ -72,7 +72,7 @@
     </el-dialog>
   
 </el-form>
-
+</div>
 </template>
 <script>
   import axios from 'axios'
@@ -91,7 +91,7 @@
           editName: "",
           formInline: {
             key: '',
-            index: ''
+            index: 'hot:rule'
           },
           editFrom:{
             key: '',
@@ -137,6 +137,7 @@
           if (config.data !== ""){
             axios.request(config)
               .then((response) => {
+                  this.selectTableData();
                   console.log("拼音热词保存成功：",JSON.stringify(response.data));
               })
               .catch((error) => {
@@ -191,6 +192,7 @@
           axios.request(config)
               .then((response) => {
                 console.log("替换热词删除成功：",JSON.stringify(response.data));
+                this.selectTableData();
               })
               .catch((error) => {
                 console.log("替换热词删除成功：",error);
