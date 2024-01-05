@@ -76,6 +76,7 @@
 </template>
 <script>
   import axios from 'axios'
+  axios.defaults.baseURL = "/api" 
     export default {
       name: 'Home',
       data() {
@@ -115,7 +116,7 @@
           let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8099/word/hot/word/save',
+            url: '/word/hot/word/save',
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -169,7 +170,7 @@
           let config = {
               method: 'post',
               maxBodyLength: Infinity,
-              url: 'http://localhost:8099/word/hot/word/del',
+              url: '/word/hot/word/del',
               headers: { 
                 'Content-Type': 'application/json'
               },
@@ -199,7 +200,7 @@
           });
       },
         selectOptions() {
-            axios.get("http://localhost:8099/word/hot/word/keys").then(
+            axios.get("/word/hot/word/keys").then(
                 response => {
 						    const arr = response.data.data;
                         for(let i =0; i<arr.length; i++){
@@ -213,7 +214,7 @@
         },
         selectTableData() {
           this.tableData = []
-          axios.post("http://localhost:8099/word/hot/word/search",{
+          axios.post("/word/hot/word/search",{
             "match": this.formInline.key,
             "key": this.formInline.index,
             "pageSize": this.tablePage.pageSize,

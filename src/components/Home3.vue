@@ -69,6 +69,7 @@
 
 <script>
   import axios from 'axios'
+  axios.defaults.baseURL = "/api" 
     export default {
       name: 'Home3',
       data() {
@@ -95,7 +96,7 @@
           this.textarea6 = "";
         },
         pinyin() {
-          axios.get('http://localhost:8099/word/zh', {
+          axios.get('/word/zh', {
             params: {
               text: this.textarea,
               key: 'hot:zh'
@@ -118,7 +119,7 @@
           let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8099/word/rule',
+            url: '/word/rule',
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -133,7 +134,7 @@
           });
         },
         cn2an() {
-          axios.get('http://localhost:8099/word/cn/an', {
+          axios.get('/word/cn/an', {
             params: {
               text: this.textarea5
             }

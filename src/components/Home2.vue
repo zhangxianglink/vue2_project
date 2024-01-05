@@ -55,6 +55,7 @@
 
 <script>
   import axios from 'axios'
+  axios.defaults.baseURL = "/api" 
     export default {
       name: 'Home2',
       data() {
@@ -79,7 +80,7 @@
           let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:8099/word/del?key=' + delKey,
+            url: '/word/del?key=' + delKey,
           };
           axios.request(config)
           .then((response) => {
@@ -93,7 +94,7 @@
         },
         selectTableData() {
           this.tableData = []
-            axios.post("http://localhost:8099/common/word/page",{
+            axios.post("/common/word/page",{
               "match": this.formInline.key,
               "key": this.formInline.index,
               "pageSize": this.tablePage.pageSize,
