@@ -21,25 +21,29 @@
       <el-button type="primary" @click="edit(-1)">新增</el-button>
     </el-form-item>
 
-    <el-table border
-      :data="tableData"
-      style="width: 100%" height=750 >
+    <el-table border :data="tableData" style="width: 100%" height=750 >
       <el-table-column
-        prop="key"
-        label="key"
+        prop="left"
+        label="热词"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="value"
-        label="value"
+        prop="middle"
+        label="结果"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="right"
+        label="状态" sortable
         width="180">
       </el-table-column>
       <el-table-column
       label="操作"
-      width="200">
+      width="300">
       <template slot-scope="scope">
         <el-button type="primary" size="medium" @click="edit(scope.$index,scope.row)">编辑</el-button>
         <el-button @click="handleClick(scope.row)" type="danger" size="medium">删除</el-button>
+        <el-button type="primary" size="medium" :disabled="scope.row.right === '正常'" @click="approved(scope.row)">审核通过</el-button>
       </template>
     </el-table-column>
     </el-table>
@@ -98,7 +102,11 @@
             key: '',
             value: ''
           },
-          options: [],
+          options: [
+          {"lable":1,"value":"hot:rule"},
+          {"lable":2,"value":"hot:zh"},
+          {"lable":3,"value":"hot:match"}
+          ],
           tableData: []
         }
       },
@@ -116,7 +124,7 @@
           let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: '/word/hot/word/save',
+            url: '/word/hot/word/check',
             headers: { 
               'Content-Type': 'application/json'
             },
@@ -155,9 +163,26 @@
             this.editFrom.value = '';
           }else {
             this.editName = "修改数据";
-            this.editFrom.key = row.key;
-            this.editFrom.value = row.value;
+            this.editFrom.key = row.left;
+            this.editFrom.value = row.middle;
           }
+        },
+        approved(row){
+          let delWords = [row.left]
+          axios.post("word/hot/word/approve",{
+              "indexName":this.formInline.index,
+              "delWords": delWords,
+              "delPinYinWords": [],
+              "customization_id": "",
+              "channelType": ""
+            }).then(
+                  response => {
+                    console.log('请求失败了',response.data);
+                    this.selectTableData();
+            },
+            error => {
+              console.log('请求失败了',error.message)
+            })
         },
         handleClick(row) {
           let dto = {
@@ -178,14 +203,14 @@
             };    
           if(this.formInline.index === 'hot:rule' || this.formInline.index === 'hot:match'){
             dto.indexName = this.formInline.index;
-            dto.delWords.push(row.key)
+            dto.delWords.push(row.left);
             config.data = JSON.stringify(dto);
           }else if (this.formInline.index === 'hot:zh'){
             dto.indexName = this.formInline.index;
-            dto.delPinYinWords.push(row.key)
+            dto.delPinYinWords.push(row.left)
             config.data = JSON.stringify(dto);
           }else {
-            this.$alert('可选索引：hot:zh，hot:rule，hot:match', '先选择索引', {
+            this.$alert('可选索引 hot:zh, hot:rule, hot:match', '先选择索引', {
                 confirmButtonText: '确定',
             });
             return;
@@ -223,8 +248,8 @@
                 response => {
                   const obj = response.data.data.result;
                   this.tablePage.total = response.data.data.total;
-                  for (let key in obj) {
-                    this.tableData.push({"key":key,"value":obj[key]})
+                  for (let i in obj) {
+                    this.tableData.push(obj[i]);
                   }
 					},
 					error => {
@@ -242,7 +267,7 @@
         }
       },
       mounted() {
-        this.selectOptions();
+        
       }
     }
 </script>
