@@ -72,6 +72,7 @@
   axios.defaults.baseURL = "/api" 
     export default {
       name: 'Home3',
+      props: ['username'],
       data() {
         return {
           textarea:"",

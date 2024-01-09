@@ -85,6 +85,7 @@
   axios.defaults.baseURL = "/api" 
     export default {
       name: 'Home2',
+      props: ['username'],
       data() {
         return {
           dialogTableVisible: false,
@@ -102,18 +103,22 @@
           formInline: {
             key: '',
             value:'',
-            dateStr: '2024-01-08'
+            dateStr: ''
           },
-          options: [ 
-            {label:"2024-01-08",value:"2024-01-08"},
-            {label:"2024-01-07",value:"2024-01-07"},
-            {label:"2024-01-06",value:"2024-01-06"}],
+          options: [],
           tableData: [],
           detailData: [],
           tmp: {}
         }
       },
       methods: {
+        formatDate(index) {
+          const date = new Date()
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate() - index).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        },
         handleClick(row) {
           this.tmp = row;
           this.dialogTableVisible = true;
@@ -157,25 +162,32 @@
             error => {
               console.log('请求失败了',error.message)
             })
-          },
-          handlePageChange(currentPage) {
-            this.tablePage.pageNum = currentPage;
-            this.selectTableData();
-          },
-          handleSizeChange(pageSize) {
-            this.tablePage.pageSize = pageSize
-            this.selectTableData();
-          },          
-          detailPageChange(currentPage) {
-            this.detailPage.pageNum = currentPage;
-            this.handleClick(this.tmp)
-          },
-          detailSizeChange(pageSize) {
-            this.detailPage.pageSize = pageSize
-           
-          }
+        },
+        handlePageChange(currentPage) {
+          this.tablePage.pageNum = currentPage;
+          this.selectTableData();
+        },
+        handleSizeChange(pageSize) {
+          this.tablePage.pageSize = pageSize
+          this.selectTableData();
+        },          
+        detailPageChange(currentPage) {
+          this.detailPage.pageNum = currentPage;
+          this.handleClick(this.tmp)
+        },
+        detailSizeChange(pageSize) {
+          this.detailPage.pageSize = pageSize
+          
+        },
+        selectOptions(){
+          this.options.push({label:"今天",value:this.formatDate(0)});
+          this.options.push({label:"昨天",value:this.formatDate(1)});
+          this.options.push({label:"前天",value:this.formatDate(2)});
+          this.formInline.dateStr = this.formatDate(0);
+        }
       },
       mounted() {
+        this.selectOptions()
       }
     }
 </script>

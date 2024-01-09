@@ -1,29 +1,33 @@
 <template>
-<el-container>
-  <el-header id="head">
-    <el-menu router
-    :default-active="activeIndex2"
-    class="el-menu-demo"
-    mode="horizontal"
-    @select="handleSelect"
-    background-color="#545c64"
-    text-color="#fff"
-    active-text-color="#ffd04b">
-      <el-menu-item index="/home"  >
-      热词操作
-      </el-menu-item>
-      <el-menu-item index="/home2"  >
-      热词统计
-      </el-menu-item>
-      <el-menu-item index="/home3"  >
-      热词效果
-      </el-menu-item>
-    </el-menu>
-  </el-header>
-  <el-main>
-    <router-view/>
-  </el-main>
-</el-container>
+  <div class="layout">
+        <el-container>
+          <el-header id="head">
+            <el-menu router
+            class="el-menu-demo" :default-active="$route.path"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b">
+            <el-menu-item index="/home4" >
+              登录授权
+              </el-menu-item>
+              <el-menu-item index="/home"  :disabled="disable">
+              热词操作
+              </el-menu-item>
+              <el-menu-item index="/home2"  :disabled="disable">
+              热词统计
+              </el-menu-item>
+              <el-menu-item index="/home3"  :disabled="disable">
+              热词效果
+              </el-menu-item>
+            </el-menu>
+          </el-header>
+          <el-main>
+            <router-view  :username="username" @updateUsername="updateUsername" />
+          </el-main>
+        </el-container>
+</div>
 </template>
 
 <script>
@@ -32,12 +36,20 @@ export default {
   name: 'Layout',
   data() {
       return {
-        activeIndex2: '1'
+        disable: true,
+        username: ""
       };
     },
     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
+      updateUsername(newUsername) {
+        console.log("接收子组件数据",newUsername)
+        if(newUsername === 'master19' || newUsername === 'slave7'){
+          this.disable = false;
+          this.username = newUsername;
+        }
+      },
+      handleSelect(index, keyPath) {
+        this.$router.push(index);
       },
       handleOpen(key, keyPath) {
         console.log(key, keyPath);
