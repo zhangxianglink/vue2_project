@@ -52,7 +52,11 @@
 
     <el-dialog title="热词详情列表" :visible.sync="dialogTableVisible">
       <el-table :data="detailData">
-        <el-table-column property="data" label="详情" ></el-table-column>
+        <el-table-column property="data" label="详情" >
+          <template slot-scope="scope">
+            <div v-html="scope.row.data"></div>
+            </template>
+        </el-table-column>
       </el-table>
       <el-pagination
       background
@@ -135,13 +139,20 @@
                     const obj = response.data.result;
                     this.detailPage.total = response.data.total;
                     for (let i in obj) {
-                      this.detailData.push({"data": obj[i] })
+                    let  msg = obj[i].replace(
+                    row.left, 
+                    // 这里是替换成html格式的数据，最好再加一个样式权重，保险一点
+                    
+                    '<font style="color:red!important;">'+ row.left +'</font>'
+                )
+                      this.detailData.push({"data": msg })
                   }                 
             },
             error => {
               console.log('请求失败了',error.message)
             })
         },
+        
         selectTableData() {
           this.tableData = []
             axios.post("/common/word/page",{

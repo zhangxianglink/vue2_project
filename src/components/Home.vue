@@ -42,8 +42,8 @@
       width="300">
       <template slot-scope="scope">
         <el-button type="primary" size="medium" @click="edit(scope.$index,scope.row)">编辑</el-button>
-        <el-button @click="handleClick(scope.row)" type="danger" size="medium" :disabled="username === 'slave7'">删除</el-button>
-        <el-button type="primary" size="medium" :disabled="scope.row.right === '正常' || username === 'slave7'" @click="approved(scope.row)">审核通过</el-button>
+        <el-button @click="handleClick(scope.row)" type="danger" size="medium" :disabled="username !== 'master19'">删除</el-button>
+        <el-button type="primary" size="medium" :disabled="scope.row.right === '正常' || username !== 'master19'" @click="approved(scope.row)">审核通过</el-button>
       </template>
     </el-table-column>
     </el-table>
