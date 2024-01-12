@@ -136,8 +136,8 @@
               "pageNum": this.detailPage.pageNum
             }).then(
                   response => {
-                    const obj = response.data.result;
-                    this.detailPage.total = response.data.total;
+                    const obj = response.data.data.result;
+                    this.detailPage.total = response.data.data.total;
                     for (let i in obj) {
                     let  msg = obj[i].replace(
                     row.left, 
@@ -164,8 +164,8 @@
               "pageNum": this.tablePage.pageNum
             }).then(
                   response => {
-                    const obj = response.data.result;
-                    this.tablePage.total = response.data.total;                 
+                    const obj = response.data.data.result;
+                    this.tablePage.total = response.data.data.total;                 
                     for (let i in obj) {
                       this.tableData.push(obj[i]);
                   }
@@ -193,7 +193,7 @@
         selectOptions(){
           this.options.push({label:"今天",value:this.formatDate(0)});
           this.options.push({label:"昨天",value:this.formatDate(1)});
-          this.options.push({label:"前天",value:this.formatDate(2)});
+
           this.formInline.dateStr = this.formatDate(0);
         }
       },

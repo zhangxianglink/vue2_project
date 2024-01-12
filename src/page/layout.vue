@@ -9,7 +9,7 @@
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
-            <el-menu-item index="/home4" >
+              <el-menu-item index="/home4" >
               登录授权
               </el-menu-item>
               <el-menu-item index="/home"  :disabled="disable">
@@ -20,6 +20,9 @@
               </el-menu-item>
               <el-menu-item index="/home3"  :disabled="disable">
               热词效果
+              </el-menu-item>
+              <el-menu-item index="/home5"  :disabled="disable">
+              ASR运行统计
               </el-menu-item>
             </el-menu>
           </el-header>
