@@ -240,6 +240,7 @@
             )
         },
         selectTableData() {
+          console.log('全局数据：', this.$store.state.name)
           this.tableData = []
           axios.post("/word/hot/word/search",{
             "match": this.formInline.key,

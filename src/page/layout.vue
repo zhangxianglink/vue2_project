@@ -52,6 +52,7 @@ export default {
         if(newUsername === 'master19' || newUsername === 'slave7'){
           this.disable = false;
           this.username = newUsername;
+          this.$store.dispatch('setName',this.username)
         }
       },
       handleSelect(index, keyPath) {
