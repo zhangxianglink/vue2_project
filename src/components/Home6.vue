@@ -42,6 +42,8 @@
       width="300">
       <template slot-scope="scope">
         <el-button type="primary" size="medium" @click="edit(scope.$index,scope.row)">编辑</el-button>
+        <el-button  v-if="username === 'master19'" @click="handleClick(scope.row)" type="danger" size="medium" :disabled="username !== 'master19'">删除</el-button>
+        <el-button v-if="username === 'master19'" type="primary" size="medium" :disabled="scope.row.right === '正常' || username !== 'master19'" @click="approved(scope.row)">审核通过</el-button>
       </template>
     </el-table-column>
     </el-table>
@@ -201,7 +203,7 @@
               },
               data : ""
             };    
-          if(this.formInline.index === 'hot:rule' || this.formInline.index === 'hot:match' ||  this.formInline.index === 'hot:regex'){
+            if(this.formInline.index === 'hot:rule' || this.formInline.index === 'hot:match' ||  this.formInline.index === 'hot:regex'){
             dto.indexName = this.formInline.index;
             dto.delWords.push(row.left);
             config.data = JSON.stringify(dto);

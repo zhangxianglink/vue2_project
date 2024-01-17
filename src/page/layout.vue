@@ -10,19 +10,22 @@
             text-color="#fff"
             active-text-color="#ffd04b">
               <el-menu-item index="/home4" >
-              登录授权
+                登录授权
               </el-menu-item>
-              <el-menu-item index="/home"  :disabled="disable">
-              热词操作
+              <el-menu-item index="/home"  >
+                热词修改
               </el-menu-item>
-              <el-menu-item index="/home2"  :disabled="disable">
-              热词统计
+              <el-menu-item index="/home2" >
+                热词统计
               </el-menu-item>
-              <el-menu-item index="/home3"  :disabled="disable">
-              热词效果
+              <el-menu-item index="/home3"  >
+                热词效果
               </el-menu-item>
-              <el-menu-item index="/home5"  :disabled="disable">
-              ASR运行统计
+              <el-menu-item index="/home5" >
+                ASR运行统计
+              </el-menu-item>
+              <el-menu-item v-if="!disable" index="/home6"  :disabled="disable">
+                热词审核
               </el-menu-item>
             </el-menu>
           </el-header>

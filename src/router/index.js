@@ -4,6 +4,7 @@ import Home2 from '../components/Home2.vue'
 import Home3 from '../components/Home3.vue'
 import Home4 from '../components/Home4.vue'
 import Home5 from '../components/Home5.vue'
+import Home6 from '../components/Home6.vue'
 
 export default new VueRouter({
     routes:[
@@ -30,6 +31,10 @@ export default new VueRouter({
         {
             path:'/home5',
             component:Home5
+        },
+        {
+            path:'/home6',
+            component:Home6
         }
     ]
 })
