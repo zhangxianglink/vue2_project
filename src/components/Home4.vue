@@ -29,8 +29,17 @@ export default {
   methods: {
     login() {
       // 实现登录逻辑
-      console.log('Logging in with username: ' + this.username + ' and password: ' + this.password);
-      this.$emit('updateUsername', this.username);
+      if(this.username === 'master19' && this.password === '123456'){
+        this.$emit('updateUsername', this.username);
+        this.$router.push('/home');
+    
+      }else {
+        this.$alert('账号密码错误', '重新登录', {
+                confirmButtonText: '确定',
+        });
+      }
+      this.username = '';
+      this.password = '';
     }
   }
 }

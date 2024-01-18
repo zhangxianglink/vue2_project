@@ -1,17 +1,16 @@
 <template>
   <div class="layout">
         <el-container>
-          <el-header id="head">
+          
+          <el-aside width="160px" id="head" v-if="username === 'master19' ">
             <el-menu router
             class="el-menu-demo" :default-active="$route.path"
-            mode="horizontal"
+            mode="vertical"
             @select="handleSelect"
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
-              <el-menu-item index="/home4" >
-                登录授权
-              </el-menu-item>
+
               <el-menu-item index="/home"  >
                 热词修改
               </el-menu-item>
@@ -28,7 +27,7 @@
                 热词审核
               </el-menu-item>
             </el-menu>
-          </el-header>
+          </el-aside>
           <el-main>
             <router-view  :username="username" @updateUsername="updateUsername" />
           </el-main>

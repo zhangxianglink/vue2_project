@@ -15,15 +15,24 @@ const router = new VueRouter({
         },
         {
             path:'/home',
-            component:Home
+            component:Home,
+            meta: {
+              requiresAuth: true // 添加一个meta字段，用于标识需要进行权限验证的路由
+            }
         },
         {
             path:'/home2',
-            component:Home2
+            component:Home2,
+            meta: {
+              requiresAuth: true // 添加一个meta字段，用于标识需要进行权限验证的路由
+            }
         },
         {
             path:'/home3',
-            component:Home3
+            component:Home3,
+            meta: {
+              requiresAuth: true // 添加一个meta字段，用于标识需要进行权限验证的路由
+            }
         },
         {
             path:'/home4',
@@ -31,7 +40,10 @@ const router = new VueRouter({
         },
         {
             path:'/home5',
-            component:Home5
+            component:Home5,
+            meta: {
+              requiresAuth: true // 添加一个meta字段，用于标识需要进行权限验证的路由
+            }
         },
         {
             path:'/home6',
@@ -47,7 +59,6 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // 需要权限验证的路由
-    console.log('ssdfadsfa',store.state.name)
     if (store.state.name !== 'master19') {
       next('/home4');
     } else {
