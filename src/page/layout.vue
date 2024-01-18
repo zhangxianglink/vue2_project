@@ -2,7 +2,7 @@
   <div class="layout">
         <el-container>
           
-          <el-aside width="160px" id="head" v-if="username === 'master19' ">
+          <el-aside width="160px" id="head" v-if="username === 'master19' ||  username === 'slave7'">
             <el-menu router
             class="el-menu-demo" :default-active="$route.path"
             mode="vertical"
@@ -49,9 +49,11 @@ export default {
       updateUsername(newUsername) {
         console.log("接收子组件数据",newUsername)
         if(newUsername === 'master19' || newUsername === 'slave7'){
-          this.disable = false;
           this.username = newUsername;
           this.$store.dispatch('setName',this.username)
+        }
+        if(newUsername === 'master19'){
+          this.disable = false;
         }
       },
       handleSelect(index, keyPath) {

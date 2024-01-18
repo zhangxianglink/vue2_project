@@ -29,7 +29,7 @@ export default {
   methods: {
     login() {
       // 实现登录逻辑
-      if(this.username === 'master19' && this.password === '123456'){
+      if((this.username === 'master19' || this.username === 'slave7') && this.password === '123456'){
         this.$emit('updateUsername', this.username);
         this.$router.push('/home');
     
@@ -38,8 +38,6 @@ export default {
                 confirmButtonText: '确定',
         });
       }
-      this.username = '';
-      this.password = '';
     }
   }
 }

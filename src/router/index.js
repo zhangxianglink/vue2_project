@@ -59,7 +59,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     // 需要权限验证的路由
-    if (store.state.name !== 'master19') {
+    if (store.state.name !== 'master19' && store.state.name !== 'slave7' ) {
       next('/home4');
     } else {
       next() // 继续正常跳转
