@@ -36,7 +36,7 @@
 </template>
 
 <script>
-
+import {mapState,mapGetters,mapMutations,mapActions} from 'vuex'
 export default {
   name: 'Layout',
   data() {
@@ -46,11 +46,15 @@ export default {
       };
     },
     methods: {
+      ...mapActions({setName:'setName'}),
+      ...mapMutations({increment:'ADDNUM'}),
       updateUsername(newUsername) {
         console.log("接收子组件数据",newUsername)
         if(newUsername === 'master19' || newUsername === 'slave7'){
           this.username = newUsername;
-          this.$store.dispatch('setName',this.username)
+          // this.setName(this.username)
+          this.increment(this.username)
+          //原始写法  this.$store.dispatch('setName',this.username)
         }
         if(newUsername === 'master19'){
           this.disable = false;

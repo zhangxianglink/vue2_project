@@ -15,6 +15,9 @@ const actions = {
 const mutations = {
     SETNAME(state,value){
         state.name = value;
+    },
+    ADDNUM(state,value){
+        state.name = value;
     }
 }
 //准备state对象——保存具体的数据
@@ -22,9 +25,21 @@ const state = {
     name: 'nothing' //当前的和
 }
 
+const getters = {
+    LoginName(state){
+        return state.name;
+    }
+}
+
+const countAbout = {
+    namespaced:true,
+    //开启命名空间，模块化
+}
+
 //创建并暴露store
 export default new Vuex.Store({
 	actions,
 	mutations,
-	state
+	state,
+    getters
 })
