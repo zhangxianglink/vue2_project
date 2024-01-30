@@ -4,12 +4,21 @@
     <el-form-item label="查询key">
       <el-input v-model="formInline.key" placeholder="查询key"></el-input>
     </el-form-item>
+    <el-form-item label="热词长度">
+      <el-select v-model="formInline.size" placeholder="热词长度">
+        <el-option
+            v-for="item in options2"
+            :key="item.value"
+            :label="item.lable"
+            :value="item.value">
+            </el-option>
+      </el-select>
+    </el-form-item>
     <el-form-item label="查询索引">
       <el-select v-model="formInline.index" placeholder="查询索引">
         <el-option
             v-for="item in options"
             :key="item.value"
-            :label="item.label"
             :value="item.value">
             </el-option>
       </el-select>
@@ -95,7 +104,8 @@
           editName: "",
           formInline: {
             key: '',
-            index: 'hot:rule'
+            index: 'hot:rule',
+            size: 0,
           },
           editFrom:{
             key: '',
@@ -106,6 +116,18 @@
           {"lable":2,"value":"hot:zh"},
           {"lable":3,"value":"hot:match"},
           {"lable":4,"value":"hot:regex"}
+          ],
+          options2: [
+          {"lable":"全部","value":0},
+          {"lable":1,"value":1},
+          {"lable":2,"value":2},
+          {"lable":3,"value":3},
+          {"lable":4,"value":4},
+          {"lable":5,"value":5},
+          {"lable":6,"value":6},
+          {"lable":7,"value":7},
+          {"lable":8,"value":8},
+          {"lable":9,"value":9}
           ],
           tableData: []
         }
@@ -242,6 +264,7 @@
           axios.post("/word/hot/word/search",{
             "match": this.formInline.key,
             "key": this.formInline.index,
+            "valueSize": this.formInline.size,
             "pageSize": this.tablePage.pageSize,
             "pageNum": this.tablePage.pageNum
           }).then(
