@@ -73,7 +73,7 @@
     <el-dialog id="edit" :title="editName" :visible.sync="editOn">
       <el-form :model="editFrom">
         <el-form-item label="KEY" :label-width="formLabelWidth">
-          <el-input v-model="editFrom.key" autocomplete="off"></el-input>
+          <el-input v-model="editFrom.key" autocomplete="off" :disabled="editFrom.disabled"></el-input>
         </el-form-item>
         <el-form-item label="VALUE" :label-width="formLabelWidth">
           <el-input  type="textarea" v-model.trim="editFrom.value" autocomplete="off" autosize ></el-input>
@@ -116,7 +116,8 @@ axios.defaults.baseURL = "/api"
         },
         editFrom:{
           key: '',
-          value: ''
+          value: '',
+          disabled: true
         },
         options: [
         {"lable":1,"value":"hot:rule"},
@@ -190,10 +191,12 @@ axios.defaults.baseURL = "/api"
           this.editName = "新增数据";
           this.editFrom.key = '';
           this.editFrom.value = '';
+          this.editFrom.disabled = false;
         }else {
           this.editName = "修改数据";
           this.editFrom.key = row.left;
           this.editFrom.value = row.middle;
+          this.editFrom.disabled = true;
         }
       },
       approved(row){
