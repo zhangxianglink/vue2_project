@@ -38,13 +38,18 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="middle"
+        prop="right"
         label="结果"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="right"
+        prop="middle"
         label="状态" sortable
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="others"
+        label="今日采用"
         width="180">
       </el-table-column>
       <el-table-column
@@ -53,7 +58,7 @@
       <template slot-scope="scope">
         <el-button type="primary" size="medium" @click="edit(scope.$index,scope.row)">编辑</el-button>
         <el-button  v-if="stateName === 'master19'" @click="handleClick(scope.row)" type="danger" size="medium" :disabled="stateName !== 'master19'">删除</el-button>
-        <el-button v-if="stateName === 'master19'" type="primary" size="medium" :disabled="scope.row.right === '正常' || stateName !== 'master19'" @click="approved(scope.row)">审核通过</el-button>
+        <el-button v-if="stateName === 'master19'" type="primary" size="medium" :disabled="scope.row.middle === '正常' || stateName !== 'master19'" @click="approved(scope.row)">审核通过</el-button>
       </template>
     </el-table-column>
     </el-table>

@@ -37,13 +37,18 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="middle"
+        prop="right"
         label="结果"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="right"
+        prop="middle"
         label="状态" sortable
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="others"
+        label="今日采用"
         width="180">
       </el-table-column>
       <el-table-column
