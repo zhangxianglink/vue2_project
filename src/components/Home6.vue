@@ -153,7 +153,7 @@ axios.defaults.baseURL = "/api"
                   "indexName": "",
                   "companyWords": {},
                   "pinyinCompanyWords": {},
-                  "customization_id": "",
+                  "vocabularyId": "",
                   "channelType": ""
                 }
         let config = {
@@ -200,7 +200,7 @@ axios.defaults.baseURL = "/api"
         }else {
           this.editName = "修改数据";
           this.editFrom.key = row.left;
-          this.editFrom.value = row.middle;
+          this.editFrom.value = row.right;
           this.editFrom.disabled = true;
         }
       },
@@ -210,7 +210,7 @@ axios.defaults.baseURL = "/api"
             "indexName":this.formInline.index,
             "delWords": delWords,
             "delPinYinWords": [],
-            "customization_id": "",
+            "vocabularyId": "",
             "channelType": ""
           }).then(
                 response => {
@@ -226,7 +226,7 @@ axios.defaults.baseURL = "/api"
               "indexName": "",
               "delWords": [],
               "delPinYinWords": [],
-              "customization_id": "",
+              "vocabularyId": "",
               "channelType": ""
             } 
         let config = {

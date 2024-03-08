@@ -113,7 +113,7 @@
         hotWord() {
           let data = {
             "text": this.textarea3,
-            "timestamps": Array.from(new Array(this.textarea3.length).keys()),
+            "timestamps": Array.from(new Array(this.textarea3.length + 1).keys()),
             "tokens": this.textarea3.split("")
           };
 

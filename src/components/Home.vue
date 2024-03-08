@@ -146,7 +146,7 @@
                     "indexName": "",
                     "companyWords": {},
                     "pinyinCompanyWords": {},
-                    "customization_id": "",
+                    "vocabularyId": "",
                     "channelType": ""
                   }
           let config = {
@@ -193,7 +193,7 @@
           }else {
             this.editName = "修改数据";
             this.editFrom.key = row.left;
-            this.editFrom.value = row.middle;
+            this.editFrom.value = row.right;
             this.editFrom.disabled = true;
           }
         },
@@ -203,7 +203,7 @@
               "indexName":this.formInline.index,
               "delWords": delWords,
               "delPinYinWords": [],
-              "customization_id": "",
+              "vocabularyId": "",
               "channelType": ""
             }).then(
                   response => {
@@ -219,7 +219,7 @@
                 "indexName": "",
                 "delWords": [],
                 "delPinYinWords": [],
-                "customization_id": "",
+                "vocabularyId": "",
                 "channelType": ""
               } 
           let config = {
